@@ -1,0 +1,49 @@
+@import 'settings';
+
+*{
+    box-sizing: border-box;
+}
+html{
+    height: 100%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    font-family: $main-font, sans-serif;
+    min-height: 100%;
+}
+.container{
+    width: 80%;
+    margin: 0 auto;
+    transition: all 1s ease;
+    @media(min-width: $desktop-breakpoint){
+        width: 60%;    
+    }
+}
+.button{
+    padding: 8px 20px 10px 20px;
+    border: none;
+    background-color: $blue;
+    color: $white;
+    font-size: $s-size;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-box-shadow: 0px 0px 15px -4px rgba(13,13,13,1);
+-moz-box-shadow: 0px 0px 15px -4px rgba(13,13,13,1);
+box-shadow: 0px 0px 15px -4px rgba(13,13,13,1);
+}
+.button:hover{
+    background-color: $dark-blue;
+}
+
+.link{
+    text-decoration: none;
+    color: $blue !important;
+      
+    p{ 
+      color: $blue !important;
+      margin-top: $s-size;
+      font-size: 1rem;
+    }  
+}
+
