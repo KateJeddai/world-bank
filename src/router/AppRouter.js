@@ -3,7 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
 import Dashboard from '../components/Dashboard';
-import RegionsExpectancy from '../components/RegionsExpectancy';
+import CountriesGeneral from '../components/CountriesGeneral';
 import RegionsGeneral from '../components/RegionsGeneral';
 
 export const history = createHistory();
@@ -20,11 +20,9 @@ const AppRouter = () => (
               <Route path="/regions"  
                      component={RegionsGeneral}
                 />    
-              <Route path="/regions/life-expectancy"  
-                     component={RegionsExpectancy}
-                     exact
-               />      
-                 
+               <Route path="/countries"  
+                     component={CountriesGeneral}
+                />  
           </Switch>    
       </div>
     </Router>
