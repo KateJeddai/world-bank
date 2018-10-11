@@ -42,7 +42,7 @@ class RegionsExpectancy extends React.Component{
                         delete d['date'];
                         return d;
                     })
-                    this.setState((prevState) => ({ data }));
+                    this.setState(() => ({ data }));
              })
              .catch(err => console.log(err));
     }

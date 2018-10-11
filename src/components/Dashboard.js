@@ -17,8 +17,7 @@ class Dashboard extends React.Component{
         life_opened: false,
         fertility_opened: false
     };
-    /*
-    componentDidMount() {
+    /*   componentDidMount() {
             this.initialize();
           }
         
@@ -29,8 +28,58 @@ class Dashboard extends React.Component{
         
           initialize = async () => {
             await this.myFunction();
-          }*/
+       ];*/
 
+    componentDidMount(){
+        let urls = [
+            'https://cors-anywhere.herokuapp.com/http://api.worldbank.org/countries/all/indicators/SP.POP.TOTL/?format=json&date=2014&per_page=6200',
+            'https://cors-anywhere.herokuapp.com/http://api.worldbank.org/countries/all/indicators/SP.DYN.LE00.IN/?format=json&date=2014&per_page=6200',
+            'https://cors-anywhere.herokuapp.com/http://api.worldbank.org/countries/all/indicators/SP.DYN.TFRT.IN/?format=json&date=2014&per_page=6200'
+        ];
+        let requests = urls.map(url => axios.get(url).catch(err => err));
+       
+        Promise.all(requests)
+               .then(responses => responses.forEach(res => {
+                   if(res.status === 200){
+                     let data = res.data[1].slice(46, res.data[1].length - 1);
+                     let world = data[0];
+                        
+                        data = data.sort((a, b) => {
+                             if(parseFloat(a.value) > parseFloat(b.value)){
+                                return -1;
+                             }
+                             else if(parseFloat(a.value) < parseFloat(b.value)){
+                                return 1;
+                             }
+                             else return 0;
+                        }); 
+                        
+                        if(data[0].indicator.id === 'SP.POP.TOTL'){
+                            data = data.slice(0, 11);
+                            console.log(data);
+                            this.setState(() => ({ data_population: data }));
+                            this.props.addTopPopulation(data);
+                        }  
+                        else if(data[0].indicator.id === 'SP.DYN.LE00.IN'){
+                            data = data.slice(0, 10);
+                            data.unshift(world);
+                            console.log(data);
+                            this.setState(() => ({ data_life: data })); 
+                            this.props.addTopLife(data);
+                        }
+                        else if(data[0].indicator.id === 'SP.DYN.TFRT.IN'){
+                            data = data.slice(0, 10);
+                            data.unshift(world);
+                            console.log(data);
+                            this.setState(() => ({ data_fertility: data })); 
+                            this.props.addTopFertility(data);  
+                        }
+                    }
+                }))
+             .catch(err => console.log(err));
+    }
+
+/*
     componentDidMount(){
         this.fetchDataPopulation();
         this.fetchDataLife();
@@ -51,12 +100,15 @@ class Dashboard extends React.Component{
                           }
                           else return 0;
                     }); 
-                    data = data.slice(0, 11);
-                    if(data.length > 0) {
-                        this.setState(() => ({ data_population: data }));
-                    }
-                     
-                    this.props.addTopPopulation(data);
+                    return data = data.slice(0, 11);
+                    
+             })
+             .then (data => {
+                if(data.length > 0) {
+                    this.setState(() => ({ data_population: data }));
+                }
+                 
+                this.props.addTopPopulation(data);
              })
              .catch(err => console.log(err));
     }
@@ -79,10 +131,13 @@ class Dashboard extends React.Component{
                     }); 
                     data = data.slice(0, 10);
                     data.unshift(world);
-                    if(data.length > 0) {
-                       this.setState(() => ({ data_life: data })); 
-                    }   
-                    this.props.addTopLife(data);         
+                    return data;
+             })
+             .then(data => {
+                if(data.length > 0) {
+                   this.setState(() => ({ data_life: data })); 
+                }   
+                this.props.addTopLife(data);
              })
              .catch(err => console.log(err));
     }
@@ -105,13 +160,16 @@ class Dashboard extends React.Component{
                     }); 
                     data = data.slice(0, 10);
                     data.unshift(world);
-                    if(data.length > 0) {
-                         this.setState(() => ({ data_fertility: data })); 
-                    }       
-                    this.props.addTopFertility(data);  
+                    return data;
+             })
+             .then(data => {
+                if(data.length > 0) {
+                    this.setState(() => ({ data_fertility: data })); 
+                }       
+                this.props.addTopFertility(data);  
              })
              .catch(err => console.log(err));
-    }
+    }*/
 
     handlePopulation = () => {
         this.setState((prevState) => ({ 

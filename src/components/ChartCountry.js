@@ -10,7 +10,7 @@ const ChartCountry = (props) => {
         if(props.data && props.data.length > 0){
             labels = props.data.map(unit => unit.date);
             info = props.data.map(unit => {
-                if(unit.value >= 1000000){
+                if(unit.value >= 100000){
                     return unit.value/1000000;
                 }    
                 else{
@@ -20,7 +20,7 @@ const ChartCountry = (props) => {
         }
 
         if(props.dataType === 'population'){
-            label = 'Population (mln)';
+            label = 'Population';
         }
         else if(props.dataType === 'life-expectancy'){
             label = 'Life Expectancy';
